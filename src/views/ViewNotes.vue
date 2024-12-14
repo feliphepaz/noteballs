@@ -12,18 +12,14 @@
       </template>
     </FieldNote>
 
-    <Note
-      v-for="(note, index) in notes.notes"
-      :key="index"
-      :note="note"
-      @delete="notes.delNote(note.id)"
-    />
+    <Note v-for="(note, index) in notes.notes" :key="index" :note="note" />
   </div>
 </template>
 
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useNotesStore } from '@/store/notes'
+  import { useWatchCharacters } from '@/composables/watch-characters'
 
   import Note from '@/components/note.vue'
   import FieldNote from '@/components/field-note.vue'
@@ -39,4 +35,6 @@
     noteContent.value = ''
     fieldNoteRef.value.focusTextarea()
   }
+
+  useWatchCharacters(noteContent)
 </script>

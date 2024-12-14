@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
   import { useRoute, useRouter } from 'vue-router'
-  import { ref, onMounted } from 'vue'
+  import { ref } from 'vue'
   import { useNotesStore } from '@/store/notes'
 
   import FieldNote from '@/components/field-note.vue'
@@ -34,7 +34,5 @@
     router.push('/')
   }
 
-  onMounted(() => {
-    noteContent.value = notes.getNoteContent(+route.params.id)
-  })
+  noteContent.value = notes.getNoteContent(+route.params.id)
 </script>

@@ -10,13 +10,16 @@
     </div>
     <footer class="card-footer">
       <RouterLink :to="`/edit/${note.id}`" class="card-footer-item">Edit</RouterLink>
-      <a href="#" class="card-footer-item" @click="emit('delete')">Delete</a>
+      <a href="#" class="card-footer-item" @click="showDeleteModal = true">Delete</a>
     </footer>
   </div>
+
+  <DeleteModal v-if="showDeleteModal" v-model="showDeleteModal" :note-id="note.id" />
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { ref, computed } from 'vue'
+  import DeleteModal from '@/components/delete-modal.vue'
 
   type Note = {
     id: number
@@ -27,8 +30,9 @@
     note: Note
   }
 
+  const showDeleteModal = ref(false)
+
   const { note } = defineProps<Props>()
-  const emit = defineEmits(['delete'])
 
   const characterDescription = computed(() =>
     note.content.length > 1 ? 'characters' : 'character',

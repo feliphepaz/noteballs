@@ -2,7 +2,7 @@
   <div class="card has-background-success-dark p-4 mb-5">
     <div class="field">
       <div class="control">
-        <textarea v-bind="$attrs" v-model="model" ref="textareaRef" class="textarea" />
+        <textarea v-bind="$attrs" v-model="model" ref="textareaRef" class="textarea" v-autofocus />
       </div>
     </div>
 
@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { vAutofocus } from '@/directives/autofocus'
 
   defineOptions({
     inheritAttrs: false,
