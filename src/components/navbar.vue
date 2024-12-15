@@ -33,15 +33,17 @@
             class="navbar-item"
             active-class="is-active"
             @click="showMobileNav = false"
-            >Notes</RouterLink
           >
+            Notes
+          </RouterLink>
           <RouterLink
             to="/stats"
             class="navbar-item"
             active-class="is-active"
             @click="showMobileNav = false"
-            >Stats</RouterLink
           >
+            Stats
+          </RouterLink>
         </div>
       </div>
     </div>

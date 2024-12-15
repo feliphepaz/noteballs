@@ -3,8 +3,11 @@
     <div class="card-content">
       <div class="content">
         {{ note.content }}
-        <div class="has-text-right has-text-grey-light mt-2">
-          <small>{{ note.content.length }} {{ characterDescription }}</small>
+        <div class="columns is-mobile has-text-grey mt-2">
+          <small class="column">{{ dateFormatted }}</small>
+          <small class="column has-text-right">
+            {{ note.content.length }} {{ characterDescription }}
+          </small>
         </div>
       </div>
     </div>
@@ -19,11 +22,14 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
+  import { useDateFormat } from '@vueuse/core'
+
   import DeleteModal from '@/components/delete-modal.vue'
 
   type Note = {
-    id: number
+    id: string
     content: string
+    date: string
   }
 
   interface Props {
@@ -37,4 +43,9 @@
   const characterDescription = computed(() =>
     note.content.length > 1 ? 'characters' : 'character',
   )
+
+  const dateFormatted = computed(() => {
+    const date = new Date(+note.date)
+    return useDateFormat(date, 'DD/MM/YYYY @ HH:mm:ss')
+  })
 </script>

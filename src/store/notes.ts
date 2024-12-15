@@ -2,32 +2,29 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 import { db } from '@/ts/firebase'
-import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore'
+import {
+  collection,
+  onSnapshot,
+  doc,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  query,
+  orderBy,
+} from 'firebase/firestore'
+
+const notesCollectionRef = collection(db, 'notes')
+const notesCollectionQuery = query(notesCollectionRef, orderBy('date', 'desc'))
 
 export const useNotesStore = defineStore('notes', () => {
   type Note = {
-    id: number
+    id: string
     content: string
+    date: string
   }
 
   const notes = ref<Note[]>([])
-
-  async function getNotes() {
-    onSnapshot(collection(db, 'notes'), (query) => {
-      const allNotes: Note[] = []
-
-      query.forEach((doc) => {
-        const note = {
-          id: +doc.id,
-          content: doc.data().content,
-        }
-        allNotes.push(note)
-      })
-
-      notes.value = allNotes
-    })
-  }
-
+  const isNotesLoading = ref(false)
   const totalNotes = computed(() => notes.value.length)
   const totalCharacters = computed(() => {
     let sum = 0
@@ -37,35 +34,53 @@ export const useNotesStore = defineStore('notes', () => {
     return sum
   })
 
-  function getNoteContent(id: number) {
+  async function getNotes() {
+    isNotesLoading.value = true
+
+    onSnapshot(notesCollectionQuery, (query) => {
+      const allNotes: Note[] = []
+
+      query.forEach((doc) => {
+        const note = {
+          id: doc.id,
+          content: doc.data().content,
+          date: doc.data().date,
+        }
+        allNotes.push(note)
+      })
+
+      notes.value = allNotes
+      isNotesLoading.value = false
+    })
+  }
+
+  function getNoteContent(id: string) {
     return notes.value.filter((note) => note.id === id)[0].content
   }
 
   async function addNote(content: string) {
     const time = new Date().getTime()
-    const id = time.toString()
+    const date = time.toString()
 
-    await setDoc(doc(db, 'notes', id), {
+    await addDoc(notesCollectionRef, {
+      content,
+      date,
+    })
+  }
+
+  async function editNote(id: string, content: string) {
+    await updateDoc(doc(notesCollectionRef, id), {
       content,
     })
   }
 
-  async function editNote(id: number, content: string) {
-    const stringifyId = id.toString()
-
-    await updateDoc(doc(db, 'notes', stringifyId), {
-      content,
-    })
-  }
-
-  async function delNote(id: number) {
-    const stringifyId = id.toString()
-
-    await deleteDoc(doc(db, 'notes', stringifyId))
+  async function delNote(id: string) {
+    await deleteDoc(doc(notesCollectionRef, id))
   }
 
   return {
     notes,
+    isNotesLoading,
     totalNotes,
     totalCharacters,
     getNotes,

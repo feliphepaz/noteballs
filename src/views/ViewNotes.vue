@@ -12,7 +12,18 @@
       </template>
     </FieldNote>
 
-    <Note v-for="(note, index) in notes.notes" :key="index" :note="note" />
+    <progress v-if="notes.isNotesLoading" class="progress is-large is-success" max="100" />
+
+    <template v-else>
+      <div
+        v-if="!notes.notes.length"
+        class="is-size-4 has-text-centered has-text-grey-light is-family-monospace py-6"
+      >
+        <p>No notes here yet...</p>
+      </div>
+
+      <Note v-for="(note, index) in notes.notes" :key="index" :note="note" />
+    </template>
   </div>
 </template>
 

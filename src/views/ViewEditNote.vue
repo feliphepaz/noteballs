@@ -28,11 +28,13 @@
 
   const noteContent = ref('')
 
+  const id = route.params.id.toString()
+
   function editNote() {
-    notes.editNote(+route.params.id, noteContent.value)
+    notes.editNote(id, noteContent.value)
 
     router.push('/')
   }
 
-  noteContent.value = notes.getNoteContent(+route.params.id)
+  noteContent.value = notes.getNoteContent(id)
 </script>

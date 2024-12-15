@@ -23,7 +23,7 @@
   import { useNotesStore } from '@/store/notes'
 
   interface Props {
-    noteId: number
+    noteId: string
   }
 
   const { noteId } = defineProps<Props>()
