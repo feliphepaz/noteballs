@@ -1,19 +1,32 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
+import { db } from '@/ts/firebase'
+import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore'
+
 export const useNotesStore = defineStore('notes', () => {
-  const notes = ref([
-    {
-      id: 0,
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.',
-    },
-    {
-      id: 1,
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.',
-    },
-  ])
+  type Note = {
+    id: number
+    content: string
+  }
+
+  const notes = ref<Note[]>([])
+
+  async function getNotes() {
+    onSnapshot(collection(db, 'notes'), (query) => {
+      const allNotes: Note[] = []
+
+      query.forEach((doc) => {
+        const note = {
+          id: +doc.id,
+          content: doc.data().content,
+        }
+        allNotes.push(note)
+      })
+
+      notes.value = allNotes
+    })
+  }
 
   const totalNotes = computed(() => notes.value.length)
   const totalCharacters = computed(() => {
@@ -28,26 +41,37 @@ export const useNotesStore = defineStore('notes', () => {
     return notes.value.filter((note) => note.id === id)[0].content
   }
 
-  function addNote(content: string) {
+  async function addNote(content: string) {
     const time = new Date().getTime()
+    const id = time.toString()
 
-    const note = {
-      id: time,
-      content: content,
-    }
-
-    notes.value.unshift(note)
+    await setDoc(doc(db, 'notes', id), {
+      content,
+    })
   }
 
-  function editNote(id: number, content: string) {
-    const note = notes.value.find((note) => note.id === id)
+  async function editNote(id: number, content: string) {
+    const stringifyId = id.toString()
 
-    if (note) note.content = content
+    await updateDoc(doc(db, 'notes', stringifyId), {
+      content,
+    })
   }
 
-  function delNote(id: number) {
-    notes.value = notes.value.filter((note) => note.id !== id)
+  async function delNote(id: number) {
+    const stringifyId = id.toString()
+
+    await deleteDoc(doc(db, 'notes', stringifyId))
   }
 
-  return { notes, totalNotes, totalCharacters, getNoteContent, addNote, editNote, delNote }
+  return {
+    notes,
+    totalNotes,
+    totalCharacters,
+    getNotes,
+    getNoteContent,
+    addNote,
+    editNote,
+    delNote,
+  }
 })
