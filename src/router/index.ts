@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/Auth'
+
 import ViewNotes from '@/views/ViewNotes.vue'
 import ViewStats from '@/views/ViewStats.vue'
 import ViewEditNote from '@/views/ViewEditNote.vue'
@@ -28,6 +30,13 @@ const router = createRouter({
       component: ViewAuth,
     },
   ],
+})
+
+router.beforeEach(async (to) => {
+  const auth = useAuthStore()
+
+  if (!auth.loggedUser.id && to.name !== 'auth') return { name: 'auth' }
+  if (auth.loggedUser.id && to.name === 'auth') return false
 })
 
 export default router
