@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
+
 import { auth } from '@/ts/firebase'
 import {
   createUserWithEmailAndPassword,
@@ -8,6 +9,7 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth'
 import { useRouter } from 'vue-router'
+import { useNotesStore } from './notes'
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
@@ -28,15 +30,19 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function init() {
+    const notes = useNotesStore()
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         loggedUser.id = user.uid
         loggedUser.email = user.email
         router.push('/')
+        notes.init()
       } else {
         loggedUser.id = null
         loggedUser.email = null
         router.push('/auth')
+        notes.clearNotes()
       }
     })
   }

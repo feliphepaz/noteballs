@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { defineStore } from 'pinia'
 
 import { db } from '@/ts/firebase'
 import {
@@ -12,9 +12,13 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore'
+import { Query, CollectionReference, type DocumentData } from 'firebase/firestore'
+import { type Unsubscribe } from 'firebase/auth'
+import { useAuthStore } from './auth'
 
-const notesCollectionRef = collection(db, 'notes')
-const notesCollectionQuery = query(notesCollectionRef, orderBy('date', 'desc'))
+let notesCollectionRef: CollectionReference<DocumentData, DocumentData>
+let notesCollectionQuery: Query<DocumentData, DocumentData>
+let unsubscribeSnapshot: Unsubscribe
 
 export const useNotesStore = defineStore('notes', () => {
   type Note = {
@@ -34,10 +38,22 @@ export const useNotesStore = defineStore('notes', () => {
     return sum
   })
 
+  function init() {
+    const auth = useAuthStore()
+
+    if (!auth.loggedUser.id) return
+
+    notesCollectionRef = collection(db, 'users', auth.loggedUser.id, 'notes')
+    notesCollectionQuery = query(notesCollectionRef, orderBy('date', 'desc'))
+    getNotes()
+  }
+
   async function getNotes() {
     isNotesLoading.value = true
 
-    onSnapshot(notesCollectionQuery, (query) => {
+    if (unsubscribeSnapshot) unsubscribeSnapshot()
+
+    unsubscribeSnapshot = onSnapshot(notesCollectionQuery, (query) => {
       const allNotes: Note[] = []
 
       query.forEach((doc) => {
@@ -52,6 +68,11 @@ export const useNotesStore = defineStore('notes', () => {
       notes.value = allNotes
       isNotesLoading.value = false
     })
+  }
+
+  function clearNotes() {
+    notes.value = []
+    if (unsubscribeSnapshot) unsubscribeSnapshot()
   }
 
   function getNoteContent(id: string) {
@@ -83,7 +104,9 @@ export const useNotesStore = defineStore('notes', () => {
     isNotesLoading,
     totalNotes,
     totalCharacters,
+    init,
     getNotes,
+    clearNotes,
     getNoteContent,
     addNote,
     editNote,

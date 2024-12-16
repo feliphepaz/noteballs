@@ -48,5 +48,4 @@
   }
 
   useWatchCharacters(noteContent)
-  notes.getNotes()
 </script>
