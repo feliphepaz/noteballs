@@ -2,24 +2,22 @@
   <nav class="navbar is-success" role="navigation" aria-label="main navigation">
     <div class="container is-max-desktop px-2">
       <div class="navbar-brand">
-        <div class="navbar-item is-size-4 is-family-monospace" href="https://bulma.io">
-          Noteballs
-        </div>
+        <div class="navbar-item is-size-4 is-family-monospace">Noteballs</div>
 
-        <a
+        <button
           role="button"
           ref="burgerButtonRef"
           :class="['navbar-burger', { 'is-active': showMobileNav }]"
           aria-label="menu"
           aria-expanded="false"
           data-target="navbarBasicExample"
-          @click.prevent="showMobileNav = !showMobileNav"
+          @click="showMobileNav = !showMobileNav"
         >
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
-        </a>
+        </button>
       </div>
 
       <div

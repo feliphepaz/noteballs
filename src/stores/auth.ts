@@ -51,36 +51,24 @@ export const useAuthStore = defineStore('auth', () => {
     const { email } = credentials
     const { password } = credentials
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user
-        console.log(user)
-      })
-      .catch((error) => {
-        alert(error.message)
-      })
+    createUserWithEmailAndPassword(auth, email, password).catch((error) => {
+      alert(error.message)
+    })
   }
 
   function loginUser(credentials: Credentials) {
     const { email } = credentials
     const { password } = credentials
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user
-        console.log(user)
-      })
-      .catch((error) => {
-        alert(error.message)
-      })
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      alert(error.message)
+    })
   }
 
   function logoutUser() {
-    signOut(auth)
-      .then(() => {})
-      .catch((error) => {
-        alert(error.message)
-      })
+    signOut(auth).catch((error) => {
+      alert(error.message)
+    })
   }
 
   return { loggedUser, init, registerUser, loginUser, logoutUser }

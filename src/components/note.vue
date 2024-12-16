@@ -13,7 +13,7 @@
     </div>
     <footer class="card-footer">
       <RouterLink :to="`/edit/${note.id}`" class="card-footer-item">Edit</RouterLink>
-      <a href="#" class="card-footer-item" @click="showDeleteModal = true">Delete</a>
+      <button class="card-footer-item" @click="showDeleteModal = true">Delete</button>
     </footer>
   </div>
 

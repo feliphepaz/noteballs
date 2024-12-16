@@ -2,8 +2,12 @@
   <div class="auth">
     <div class="tabs is-centered">
       <ul>
-        <li :class="{ 'is-active': !register }"><a @click.prevent="register = false">Login</a></li>
-        <li :class="{ 'is-active': register }"><a @click.prevent="register = true">Register</a></li>
+        <li :class="{ 'is-active': !register }">
+          <RouterLink to="#login" @click.prevent="register = false">Login</RouterLink>
+        </li>
+        <li :class="{ 'is-active': register }">
+          <RouterLink to="#register" @click.prevent="register = true">Register</RouterLink>
+        </li>
       </ul>
     </div>
 
