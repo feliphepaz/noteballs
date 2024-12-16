@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useAuthStore } from './stores/Auth'
+  import { useAuthStore } from '@/stores/auth'
 
-  import NavBar from '@/components/NavBar.vue'
+  import NavBar from '@/components/nav-bar.vue'
 
   const auth = useAuthStore()
 

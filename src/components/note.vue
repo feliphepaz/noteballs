@@ -24,7 +24,7 @@
   import { ref, computed } from 'vue'
   import { useDateFormat } from '@vueuse/core'
 
-  import DeleteModal from '@/components/DeleteModal.vue'
+  import DeleteModal from './delete-modal.vue'
 
   type Note = {
     id: string

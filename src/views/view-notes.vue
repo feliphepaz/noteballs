@@ -29,11 +29,11 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useNotesStore } from '@/stores/Notes'
-  import { useWatchCharacters } from '@/composables/useWatchCharacters'
+  import { useNotesStore } from '@/stores/notes'
+  import { useWatchCharacters } from '@/composables/use-watch-characters'
 
-  import Note from '@/components/Note.vue'
-  import FieldNote from '@/components/FieldNote.vue'
+  import Note from '@/components/note.vue'
+  import FieldNote from '@/components/field-note.vue'
 
   const notes = useNotesStore()
 

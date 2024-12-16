@@ -14,7 +14,7 @@ import {
 } from 'firebase/firestore'
 import { Query, CollectionReference, type DocumentData } from 'firebase/firestore'
 import { type Unsubscribe } from 'firebase/auth'
-import { useAuthStore } from './Auth'
+import { useAuthStore } from './auth'
 
 let notesCollectionRef: CollectionReference<DocumentData, DocumentData>
 let notesCollectionQuery: Query<DocumentData, DocumentData>

@@ -18,9 +18,9 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
-  import { useNotesStore } from '@/stores/Notes'
+  import { useNotesStore } from '@/stores/notes'
 
-  import FieldNote from '@/components/FieldNote.vue'
+  import FieldNote from '@/components/field-note.vue'
 
   const notes = useNotesStore()
   const route = useRoute()

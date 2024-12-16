@@ -20,7 +20,7 @@
 <script setup lang="ts">
   import { ref, onMounted, onUnmounted } from 'vue'
   import { onClickOutside } from '@vueuse/core'
-  import { useNotesStore } from '@/stores/Notes'
+  import { useNotesStore } from '@/stores/notes'
 
   interface Props {
     noteId: string

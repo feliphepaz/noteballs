@@ -9,7 +9,7 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth'
 import { useRouter } from 'vue-router'
-import { useNotesStore } from './Notes'
+import { useNotesStore } from './notes'
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
