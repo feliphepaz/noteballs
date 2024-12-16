@@ -1,10 +1,11 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import ViewNotes from '@/views/ViewNotes.vue'
 import ViewStats from '@/views/ViewStats.vue'
 import ViewEditNote from '@/views/ViewEditNote.vue'
+import ViewAuth from '@/views/ViewAuth.vue'
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/edit/:id',
       name: 'edit',
       component: ViewEditNote,
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: ViewAuth,
     },
   ],
 })

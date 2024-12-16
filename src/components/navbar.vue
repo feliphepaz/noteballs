@@ -27,6 +27,15 @@
         ref="menuRef"
         :class="['navbar-menu', { 'is-active': showMobileNav }]"
       >
+        <div class="navbar-start">
+          <button
+            v-if="auth.loggedUser.id"
+            class="button is-small is-info mt-3 ml-3 mb-3"
+            @click="logout"
+          >
+            Log out {{ auth.loggedUser.email }}
+          </button>
+        </div>
         <div class="navbar-end">
           <RouterLink
             to="/"
@@ -53,6 +62,9 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { onClickOutside } from '@vueuse/core'
+  import { useAuthStore } from '@/stores/auth'
+
+  const auth = useAuthStore()
 
   const showMobileNav = ref(false)
   const menuRef = ref()
@@ -67,9 +79,18 @@
       ignore: [burgerButtonRef],
     },
   )
+
+  function logout() {
+    showMobileNav.value = false
+    auth.logoutUser()
+  }
 </script>
 
 <style scoped>
+  .navbar {
+    height: 54px;
+  }
+
   @media (max-width: 1023px) {
     .navbar-menu {
       position: absolute;

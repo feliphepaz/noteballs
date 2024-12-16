@@ -16,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
-  import { useRoute, useRouter } from 'vue-router'
   import { ref } from 'vue'
-  import { useNotesStore } from '@/store/notes'
+  import { useRoute, useRouter } from 'vue-router'
+  import { useNotesStore } from '@/stores/notes'
 
   import FieldNote from '@/components/field-note.vue'
 
@@ -32,7 +32,6 @@
 
   function editNote() {
     notes.editNote(id, noteContent.value)
-
     router.push('/')
   }
 

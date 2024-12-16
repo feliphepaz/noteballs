@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useNotesStore } from '@/store/notes'
+  import { useNotesStore } from '@/stores/notes'
   import { useWatchCharacters } from '@/composables/watch-characters'
 
   import Note from '@/components/note.vue'
