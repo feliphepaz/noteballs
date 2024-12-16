@@ -62,7 +62,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { onClickOutside } from '@vueuse/core'
-  import { useAuthStore } from '@/stores/auth'
+  import { useAuthStore } from '@/stores/Auth'
 
   const auth = useAuthStore()
 

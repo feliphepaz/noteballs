@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useNotesStore } from '@/stores/notes'
+  import { useNotesStore } from '@/stores/Notes'
 
   const notes = useNotesStore()
 </script>

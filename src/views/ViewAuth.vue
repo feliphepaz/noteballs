@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
   import { ref, reactive, computed } from 'vue'
-  import { useAuthStore } from '@/stores/auth'
+  import { useAuthStore } from '@/stores/Auth'
 
   const auth = useAuthStore()
 

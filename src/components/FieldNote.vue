@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { vAutofocus } from '@/directives/autofocus'
+  import { vAutofocus } from '@/directives/vAutofocus'
 
   defineOptions({
     inheritAttrs: false,
